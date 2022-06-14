@@ -1,0 +1,183 @@
+﻿  main.cpp
+D:\MyProgramming\C++\Chesstin\Chesstin\Board.h(1137,1): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust möglich
+D:\MyProgramming\C++\Chesstin\Chesstin\Board.h(1138,1): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust möglich
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(468,15): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(469,14): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(623,9): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(624,9): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(877,9): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(877,22): error C2238: Unerwartete(s) Token vor ";"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(881,9): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(881,22): error C2238: Unerwartete(s) Token vor ";"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(914,9): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(926,5): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(926,18): error C2238: Unerwartete(s) Token vor ";"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2799,1): error C2365: "_bittest": Erneute Definition; vorherige Definition war "Funktion".
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.31.30818\include\intrin0.inl.h(129): message : Siehe Deklaration von "_bittest"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2800,41): error C2059: Syntaxfehler: "const"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2806,47): error C2065: "Base": nichtdeklarierter Bezeichner
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2807,27): error C2146: Syntaxfehler: Fehlendes ")" vor Bezeichner "Offset"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2812,47): error C2065: "Base": nichtdeklarierter Bezeichner
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2813,27): error C2146: Syntaxfehler: Fehlendes ")" vor Bezeichner "Offset"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2818,47): error C2065: "Base": nichtdeklarierter Bezeichner
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2819,27): error C2146: Syntaxfehler: Fehlendes ")" vor Bezeichner "Offset"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2823,1): error C2365: "_interlockedbittestandset": Erneute Definition; vorherige Definition war "Funktion".
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.31.30818\include\intrin0.inl.h(261): message : Siehe Deklaration von "_interlockedbittestandset"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2824,68): error C2059: Syntaxfehler: "volatile"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2830,68): error C2059: Syntaxfehler: "volatile"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2871,9): warning C4162: "_bittestandcomplement": Keine Funktion mit C-Bindung gefunden
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2872,9): warning C4162: "_bittestandset": Keine Funktion mit C-Bindung gefunden
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2873,9): warning C4162: "_bittestandreset": Keine Funktion mit C-Bindung gefunden
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(2877,9): warning C4162: "_interlockedbittestandreset": Keine Funktion mit C-Bindung gefunden
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3065,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3070,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3075,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3082,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3088,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3094,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3118,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3123,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3128,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3134,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3143,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3149,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3149,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3155,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3278,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3334,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3340,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(3346,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(4417,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8687,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8692,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8692,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8701,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8706,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8706,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8716,1): error C2182: "WriteRelease16": Unzulässige Verwendung des Typs "void"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8717,33): error C2433: "WriteRelease16": "__forceinline" bei der Deklaration von Daten nicht zulässig
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8717,39): error C2059: Syntaxfehler: "volatile"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8721,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8721,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8729,1): error C2182: "WriteNoFence16": Unzulässige Verwendung des Typs "void"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8730,33): error C2433: "WriteNoFence16": "__forceinline" bei der Deklaration von Daten nicht zulässig
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8730,39): error C2059: Syntaxfehler: "volatile"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8734,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8734,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8741,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8746,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8746,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8755,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8760,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8760,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8770,1): error C2182: "WriteRelease": Unzulässige Verwendung des Typs "void"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8771,33): error C2433: "WriteRelease": "__forceinline" bei der Deklaration von Daten nicht zulässig
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8771,38): error C2059: Syntaxfehler: "volatile"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8775,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8775,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8783,1): error C2182: "WriteNoFence": Unzulässige Verwendung des Typs "void"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8784,33): error C2433: "WriteNoFence": "__forceinline" bei der Deklaration von Daten nicht zulässig
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8784,38): error C2059: Syntaxfehler: "volatile"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8788,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8788,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8886,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8891,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8891,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8901,1): error C2182: "WriteRaw16": Unzulässige Verwendung des Typs "void"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8902,33): error C2433: "WriteRaw16": "__forceinline" bei der Deklaration von Daten nicht zulässig
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8902,39): error C2059: Syntaxfehler: "volatile"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8906,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8906,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8913,1): error C2059: Syntaxfehler: "Konstante"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8918,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8918,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8928,1): error C2182: "WriteRaw": Unzulässige Verwendung des Typs "void"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8929,33): error C2433: "WriteRaw": "__forceinline" bei der Deklaration von Daten nicht zulässig
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8929,38): error C2059: Syntaxfehler: "volatile"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8933,1): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(8933,1): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9098,35): error C2065: "PSHORT": nichtdeklarierter Bezeichner
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9098,42): error C2146: Syntaxfehler: Fehlendes ")" vor Bezeichner "Source"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9098,20): error C3861: "ReadAcquire16": Bezeichner wurde nicht gefunden.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9098,42): error C2146: Syntaxfehler: Fehlendes ";" vor Bezeichner "Source"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9098,48): error C2059: Syntaxfehler: ")"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9109,35): error C2065: "PSHORT": nichtdeklarierter Bezeichner
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9109,42): error C2146: Syntaxfehler: Fehlendes ")" vor Bezeichner "Source"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9109,20): error C3861: "ReadNoFence16": Bezeichner wurde nicht gefunden.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9109,42): error C2146: Syntaxfehler: Fehlendes ";" vor Bezeichner "Source"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9109,48): error C2059: Syntaxfehler: ")"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9120,31): error C2065: "PSHORT": nichtdeklarierter Bezeichner
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9120,38): error C2146: Syntaxfehler: Fehlendes ")" vor Bezeichner "Source"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\winnt.h(9120,44): fatal error C1003: Mehr als 100 Fehler gefunden; Kompilierung wird abgebrochen.
+
+Leistungszusammenfassung für das Projekt:
+      511 ms D:\MyProgramming\C++\Chesstin\Chesstin\Chesstin.vcxproj   1 Aufrufe
+                511 ms Build                                      1 Aufrufe
+
+Leistungszusammenfassung für das Ziel:
+        0 ms BeforeBuildGenerateSources                 1 Aufrufe
+        0 ms BuildGenerateSourcesTraverse               1 Aufrufe
+        0 ms SelectClCompile                            1 Aufrufe
+        0 ms PreBuildEvent                              1 Aufrufe
+        0 ms _SelectedFiles                             1 Aufrufe
+        0 ms SelectCustomBuild                          1 Aufrufe
+        0 ms _Xsd                                       1 Aufrufe
+        0 ms MakeDirsForMidl                            1 Aufrufe
+        0 ms ComputeMIDLGeneratedCompileInputs          1 Aufrufe
+        0 ms AfterMidl                                  1 Aufrufe
+        0 ms _Midl                                      1 Aufrufe
+        0 ms AfterBuildGenerateSources                  1 Aufrufe
+        0 ms AfterBuildGenerateSourcesEvent             1 Aufrufe
+        0 ms _BuildGenerateSourcesAction                1 Aufrufe
+        0 ms BuildGenerateSources                       1 Aufrufe
+        0 ms BuildCompileTraverse                       1 Aufrufe
+        0 ms BeforeClCompile                            1 Aufrufe
+        0 ms ComputeCLInputPDBName                      1 Aufrufe
+        0 ms FindReferenceAssembliesForReferences       1 Aufrufe
+        0 ms GetReferencedVCProjectsInfo                1 Aufrufe
+        0 ms ComputeReferenceCLInput                    1 Aufrufe
+        0 ms ResolveReferences                          1 Aufrufe
+        0 ms WarnCompileDuplicatedFilename              1 Aufrufe
+        0 ms ResolveAssemblyReferences                  1 Aufrufe
+        0 ms SetTelemetryEnvironmentVariables           1 Aufrufe
+        0 ms _PrepareForBuild                           1 Aufrufe
+        0 ms BeforeResolveReferences                    1 Aufrufe
+        0 ms AssignProjectConfiguration                 1 Aufrufe
+        0 ms _SplitProjectReferencesByFileExistence     1 Aufrufe
+        0 ms _AddOutputPathToGlobalPropertiesToRemove   1 Aufrufe
+        0 ms PrepareProjectReferences                   1 Aufrufe
+        0 ms GetFrameworkPaths                          1 Aufrufe
+        0 ms AfterResolveReferences                     1 Aufrufe
+        0 ms GetReferenceAssemblyPaths                  1 Aufrufe
+        0 ms GetResolvedWinMD                           1 Aufrufe
+        0 ms _CheckWindowsSDKInstalled                  1 Aufrufe
+        0 ms SetCABuildNativeEnvironmentVariables       1 Aufrufe
+        0 ms MakeDirsForCl                              1 Aufrufe
+        0 ms ResolveSDKReferences                       1 Aufrufe
+        0 ms ExpandSDKReferences                        1 Aufrufe
+        1 ms CustomBuild                                1 Aufrufe
+        1 ms _PrepareForReferenceResolution             1 Aufrufe
+        1 ms SetBuildDefaultEnvironmentVariables        1 Aufrufe
+        1 ms AddExternalIncludDirectoriesToPaths        1 Aufrufe
+        1 ms ResolveProjectReferences                   1 Aufrufe
+        1 ms _GetProjectReferenceTargetFrameworkProperties   1 Aufrufe
+        1 ms ComputeCustomBuildOutput                   1 Aufrufe
+        1 ms CopyFileToFolders                          1 Aufrufe
+        1 ms FixupCLCompileOptions                      1 Aufrufe
+        1 ms _CheckForInvalidConfigurationAndPlatform   1 Aufrufe
+        2 ms InitializeBuildStatus                      1 Aufrufe
+        2 ms PrepareForBuild                            1 Aufrufe
+      500 ms ClCompile                                  1 Aufrufe
+
+Leistungszusammenfassung für die Aufgabe:
+        0 ms Message                                    2 Aufrufe
+        0 ms AssignProjectConfiguration                 1 Aufrufe
+        0 ms MSBuild                                    1 Aufrufe
+        0 ms MakeDir                                    5 Aufrufe
+        0 ms CheckVCToolsetVersion                      1 Aufrufe
+        0 ms WriteLinesToFile                           1 Aufrufe
+        1 ms GetOutOfDateItems                          3 Aufrufe
+        1 ms SetEnv                                     9 Aufrufe
+        1 ms Touch                                      1 Aufrufe
+        1 ms ReadLinesFromFile                          1 Aufrufe
+      499 ms CL                                         1 Aufrufe
