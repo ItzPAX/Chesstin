@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+*.db
+*.lock
+*.vsidx
+*.ipch
+.vs/Chesstin/v17/.suo
+*.sln
+*.lastbuildstate
+*.tlog
+*.log
+*.pdb
+*.recipe
+*.tlog
+*.pdb

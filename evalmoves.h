@@ -353,6 +353,8 @@ std::vector<MoveScored> EvaluateMoves(Board board, int turn) {
 int alphaBetaMax(Board board, int alpha, int beta, int depthleft, int turn);
 int alphaBetaMin(Board board, int alpha, int beta, int depthleft, int turn);
 
+int teamToEval = 0;
+
 int alphaBetaMax(Board board, int alpha, int beta, int depthleft, int turn) {
 	if (depthleft == 0) return EvaluateBoard(board, turn);
 
@@ -397,6 +399,8 @@ Move Think(char* pBoardInfo, int currentteam, bool game) {
 	int score = INT_MIN;
 
 	std::cout << currentteam << std::endl;
+
+	teamToEval = currentteam;
 
 	std::vector<MoveScored> moves;
 	Board b;
