@@ -42,6 +42,7 @@ void ChooseMode() {
 
 		std::cout << "Depth: ";
 		std::cin >> DEPTH;
+		std::cout << "Set engine depth to: " << DEPTH << std::endl;
 	}
 }
 
@@ -54,18 +55,28 @@ const char* StringFromTeam(int team) {
 void StartGame() {
 	Move move = Move{vec2{0,0},vec2{0,0}};
 	int movecount = 0;
+	long long elapsedtime = 0;
+
 	playingBoard.FillBoard((char*)"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+	//playingBoard.FillBoard((char*)"rnb1kbnr/ppp1pppp/8/3p4/1q1PP3/8/PPP2PPP/RNBQKBNR");
 
 	// game loop
 	while (true) {
 		std::cout << "FEN: " << playingBoard.GetFen(turn) << std::endl;
 		std::cout << "Last input Move("; move.PrintMove(); std::cout << ") figfrom(" << move.figfrom << ")" << " figto(" << move.figto << ")" << std::endl;
+		std::cout << "Engine took: " << elapsedtime << " seconds!\n\n";
 		playingBoard.PrintBoard();
 
 		// engine
 		if (turn == engineteam) {
 			std::cout << "(" << movecount << ") " << "Engine's(" << StringFromTeam(turn) << ")" << " turn...\n";
+
+			std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 			move = Think(nullptr, engineteam, true);
+			std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+			elapsedtime = std::chrono::duration_cast<std::chrono::seconds>(end - begin).count();
+
 			playingBoard.ApplyMoveToBoard(move);
 		}
 
@@ -78,7 +89,7 @@ void StartGame() {
 
 			// special moves
 			if (movinput == "resign") {
-				std::cout << StringFromTeam(turn) << " resigns " << StringFromTeam(turn) << " wins\n";
+				std::cout << StringFromTeam(turn) << " resigns " << StringFromTeam(-turn) << " wins\n";
 				break;
 			}
 
@@ -130,8 +141,6 @@ void StartGame() {
 			playingBoard.ApplyMoveToBoard(move);
 		}
 
-		playingBoard.PrintBoard();
-
 		turn = -turn;
 		movecount++;
 		system(windows ? "cls" : "clear");
@@ -141,7 +150,7 @@ void StartGame() {
 int main(int argc, char *argv[]) {
 #ifdef _DEBUG
     const char* pBoardInfo = "rnb1kbnr/pppppppp/8/8/3Qq3/8/PPPPPPPP/RNB1KBNR";
-	DEPTH = 4;
+	DEPTH = 2;
     int currentteam = WHITE;
     Think((char*)pBoardInfo, currentteam, false);
 #else

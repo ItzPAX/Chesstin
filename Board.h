@@ -15,6 +15,14 @@ struct vec2 {
 };
 
 struct Move {
+    Move() noexcept {
+        // do nothing
+    }
+
+    Move(vec2 _from, vec2 _to, bool promotion = false) {
+        from = _from; to = _to; pawnpromotion = promotion;
+    }
+
     void PrintMove() {
         char finalmove[4];
         finalmove[0] = 8 - from.column;
@@ -39,7 +47,7 @@ struct Move {
     void operator=(Move rhs) {
         from = rhs.from; to = rhs.to; pawnpromotion = rhs.pawnpromotion; figfrom = rhs.figfrom; figto = rhs.figto; castle = rhs.castle;
         from2 = rhs.from2; to2 = rhs.to2; figfrom2 = rhs.figfrom2; changedblacklong = rhs.changedblacklong; changedblackshort = rhs.changedblackshort;
-        changedwhitelong = rhs.changedwhitelong = changedblackshort = rhs.changedblackshort; castletype = rhs.castletype;
+        changedwhitelong = rhs.changedwhitelong = changedblackshort = rhs.changedblackshort; castletype = rhs.castletype; changedwhiteshort = rhs.changedwhiteshort;
     }
 }; 
 
@@ -196,9 +204,10 @@ public:
     }
 
     void GenAllMoves(std::vector<Move>& moveswhite, std::vector<Move>& movesblack, std::vector<Move>& checkswhite, std::vector<Move>& checksblack) {
-        // iterate through board
-        moveswhite.reserve(200); movesblack.reserve(200); checkswhite.reserve(50); checksblack.reserve(50);
+        moveswhite.resize(200); movesblack.resize(200); checkswhite.resize(50); checksblack.resize(50);
+        int wmidx = 0; int bmidx = 0; int wcidx = 0; int bcidx = 0;
 
+        // iterate through board
         for (int col = 0; col < 8; col++) {
             for (int row = 0; row < 8; row++) {
                 char figure = board[col][row];
@@ -210,20 +219,20 @@ public:
                     // pawn can promote
                     if (col == 7) {
                         Move move = Move{ vec2{col, row}, vec2{col, row}, true };
-                        movesblack.push_back(move);
+                        movesblack[bmidx++] = move;
                         continue;
                     }
 
                     // board is empty
                     if (board[col + 1][row] == '.') {
                         Move move = Move{ vec2{col, row}, vec2{col + 1, row} };
-                        movesblack.push_back(move);
+                        movesblack[bmidx++] = move;
                     }
 
                     // pawn hasnt moved yet?
                     if (col == 1 && board[col + 2][row] == '.' && board[col + 1][row] == '.') {
                         Move move = Move{ vec2{col, row}, vec2{col + 2, row} };
-                        movesblack.push_back(move);
+                        movesblack[bmidx++] = move;
                     }
 
                     // can we attack
@@ -233,38 +242,39 @@ public:
 
                         // we are giving a check special rules apply
                         if (attackpos == 'K')
-                            checksblack.push_back(move);
+                            checksblack[bcidx++] = move;
+                            
                         else
-                            movesblack.push_back(move);
+                            movesblack[bmidx++] = move;
                     }
                     attackpos = board[col + 1][row + 1];
                     if (row < 8 && isupper(attackpos)) {
                         Move move = Move{ vec2{col, row}, vec2{col + 1, row + 1} };
 
                         if (attackpos == 'K')
-                            checksblack.push_back(move);
+                            checksblack[bcidx++] = move;
                         else
-                            movesblack.push_back(move);
+                            movesblack[bmidx++] = move;
                     }
                 }
                 if (figure == 'P') {
                     // pawn can promote
                     if (col == 0) {
                         Move move = Move{ vec2{col, row}, vec2{col, row}, true };
-                        moveswhite.push_back(move);
+                        moveswhite[wmidx++] = move;
                         continue;
                     }
 
                     // board is empty
                     if (board[col - 1][row] == '.') {
                         Move move = Move{ vec2{col, row}, vec2{col - 1, row} };
-                        moveswhite.push_back(move);
+                        moveswhite[wmidx++] = move;
                     }
 
                     // pawn hasnt moved yet?
                     if (col == 6 && board[col - 2][row] == '.' && board[col - 1][row] == '.') {
                         Move move = Move{ vec2{col, row}, vec2{col - 2, row} };
-                        moveswhite.push_back(move);
+                        moveswhite[wmidx++] = move;
                     }
 
                     // can we attack
@@ -274,18 +284,18 @@ public:
 
                         // we are giving a check special rules apply
                         if (attackpos == 'k')
-                            checkswhite.push_back(move);
+                            checkswhite[wcidx++] = move;
                         else
-                            moveswhite.push_back(move);
+                            moveswhite[wmidx++] = move;
                     }
                     attackpos = board[col - 1][row + 1];
                     if (row < 8 && islower(attackpos)) {
                         Move move = Move{ vec2{col, row}, vec2{col - 1, row + 1} };
 
                         if (attackpos == 'k')
-                            checkswhite.push_back(move);
+                            checkswhite[wcidx++] = move;
                         else
-                            moveswhite.push_back(move);
+                            moveswhite[wmidx++] = move;
                     }
                 }
                 // rook / queen
@@ -298,15 +308,15 @@ public:
                         if (isupper(target)) {
                             Move move{ vec2{col, row}, vec2{i, row} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{i, row} };
-                            movesblack.push_back(move);
+                            movesblack[bmidx++] = move;
                         }
                     }
                     // down
@@ -318,15 +328,15 @@ public:
                         if (isupper(target)) {
                             Move move{ vec2{col, row}, vec2{i, row} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{i, row} };
-                            movesblack.push_back(move);
+                            movesblack[bmidx++] = move;
                         }
                     }
                     // right
@@ -338,15 +348,15 @@ public:
                         if (isupper(target)) {
                             Move move{ vec2{col, row}, vec2{col, i} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col, i} };
-                            movesblack.push_back(move);
+                            movesblack[bmidx++] = move;
                         }
                     }
                     // left
@@ -358,15 +368,15 @@ public:
                         if (isupper(target)) {
                             Move move{ vec2{col, row}, vec2{col, i} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col, i} };
-                            movesblack.push_back(move);
+                            movesblack[bmidx++] = move;
                         }
                     }
                 }
@@ -381,15 +391,15 @@ public:
                         if (islower(target)) {
                             Move move{ vec2{col, row}, vec2{i, row} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{i, row} };
-                            moveswhite.push_back(move);
+                            moveswhite[wmidx++] = move;
                         }
                     }
                     // up
@@ -401,15 +411,15 @@ public:
                         if (islower(target)) {
                             Move move{ vec2{col, row}, vec2{i, row} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{i, row} };
-                            moveswhite.push_back(move);
+                            moveswhite[wmidx++] = move;
                         }
                     }
                     // right
@@ -421,15 +431,15 @@ public:
                         if (islower(target)) {
                             Move move{ vec2{col, row}, vec2{col, i} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col, i} };
-                            moveswhite.push_back(move);
+                            moveswhite[wmidx++] = move;
                         }
                     }
                     // left
@@ -441,15 +451,15 @@ public:
                         if (islower(target)) {
                             Move move{ vec2{col, row}, vec2{col, i} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col, i} };
-                            moveswhite.push_back(move);
+                            moveswhite[wmidx++] = move;
                         }
                     }
                 }
@@ -466,15 +476,15 @@ public:
                         if (isupper(target)) {
                             Move move{ vec2{col, row}, vec2{col + i, row + i} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col + i, row + i} };
-                            movesblack.push_back(move);
+                            movesblack[bmidx++] = move;
                         }
                     }
                     for (int i = 1; i < 8; i++) {
@@ -488,15 +498,15 @@ public:
                         if (isupper(target)) {
                             Move move{ vec2{col, row}, vec2{col - i, row - i} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col - i, row - i} };
-                            movesblack.push_back(move);
+                            movesblack[bmidx++] = move;
                         }
                     }
                     for (int i = 1; i < 8; i++) {
@@ -510,15 +520,15 @@ public:
                         if (isupper(target)) {
                             Move move{ vec2{col, row}, vec2{col - i, row + i} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col - i, row + i} };
-                            movesblack.push_back(move);
+                            movesblack[bmidx++] = move;
                         }
                     }
                     for (int i = 1; i < 8; i++) {
@@ -531,15 +541,15 @@ public:
                         if (isupper(target)) {
                             Move move{ vec2{col, row}, vec2{col + i, row - i} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col + i, row - i} };
-                            movesblack.push_back(move);
+                            movesblack[bmidx++] = move;
                         }
                     }
                 }
@@ -556,15 +566,15 @@ public:
                         if (islower(target)) {
                             Move move{ vec2{col, row}, vec2{col + i, row + i} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col + i, row + i} };
-                            moveswhite.push_back(move);
+                            moveswhite[wmidx++] = move;
                         }
                     }
                     for (int i = 1; i < 8; i++) {
@@ -578,15 +588,15 @@ public:
                         if (islower(target)) {
                             Move move{ vec2{col, row}, vec2{col - i, row - i} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col - i, row - i} };
-                            moveswhite.push_back(move);
+                            moveswhite[wmidx++] = move;
                         }
                     }
                     for (int i = 1; i < 8; i++) {
@@ -600,15 +610,15 @@ public:
                         if (islower(target)) {
                             Move move{ vec2{col, row}, vec2{col - i, row + i} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col - i, row + i} };
-                            moveswhite.push_back(move);
+                            moveswhite[wmidx++] = move;
                         }
                     }
                     for (int i = 1; i < 8; i++) {
@@ -621,15 +631,15 @@ public:
                         if (islower(target)) {
                             Move move{ vec2{col, row}, vec2{col + i, row - i} };
                             if (target == 'K')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                             break;
                         }
 
                         if (target == '.') {
                             Move move = Move{ vec2{col, row},vec2{col + i, row - i} };
-                            moveswhite.push_back(move);
+                            moveswhite[wmidx++] = move;
                         }
                     }
                 }
@@ -641,9 +651,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 2, row + 1} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col + 2 < 8 && row - 1 >= 0) {
@@ -651,9 +661,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 2, row - 1} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col + 1 < 8 && row + 2 < 8) {
@@ -661,9 +671,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 1, row + 2} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col - 1 >= 0 && row + 2 < 8) {
@@ -671,9 +681,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 1, row + 2} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col - 2 >= 0 && row + 1 < 8) {
@@ -681,9 +691,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 2, row + 1} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col - 2 >= 0 && row - 1 >= 0) {
@@ -691,9 +701,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 2, row - 1} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col + 1 < 8 && row - 2 >= 0) {
@@ -701,9 +711,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 1, row - 2} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col - 1 >= 0 && row - 2 >= 0) {
@@ -711,9 +721,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 1, row - 2} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                 }
@@ -724,9 +734,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 2, row + 1} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col + 2 < 8 && row - 1 >= 0) {
@@ -734,9 +744,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 2, row - 1} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col + 1 < 8 && row + 2 < 8) {
@@ -744,9 +754,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 1, row + 2} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col - 1 >= 0 && row + 2 < 8) {
@@ -754,9 +764,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 1, row + 2} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col - 2 >= 0 && row + 1 < 8) {
@@ -764,9 +774,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 2, row + 1} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col - 2 >= 0 && row - 1 >= 0) {
@@ -774,9 +784,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 2, row - 1} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col + 1 < 8 && row - 2 >= 0) {
@@ -784,9 +794,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 1, row - 2} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col - 1 >= 0 && row - 2 >= 0) {
@@ -794,9 +804,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 1, row - 2} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                 }
@@ -807,9 +817,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 1, row + 1} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col + 1 < 8) {
@@ -817,9 +827,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 1, row} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col + 1 < 8 && row - 1 >= 0) {
@@ -827,9 +837,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 1, row - 1} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (row - 1 >= 0) {
@@ -837,9 +847,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col, row - 1} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (row + 1 < 8) {
@@ -847,9 +857,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col, row + 1} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col - 1 >= 0 && row + 1 < 8) {
@@ -857,9 +867,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 1, row + 1} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col - 1 >= 0) {
@@ -867,9 +877,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 1, row} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                     if (col - 1 >= 0 && row - 1 >= 0) {
@@ -877,9 +887,9 @@ public:
                         if (!islower(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 1, row - 1} };
                             if (target == 'K')
-                                checksblack.push_back(move);
+                                checksblack[bcidx++] = move;
                             else
-                                movesblack.push_back(move);
+                                movesblack[bmidx++] = move;
                         }
                     }
                 }
@@ -889,9 +899,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 1, row + 1} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col + 1 < 8) {
@@ -899,9 +909,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 1, row} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col + 1 < 8 && row - 1 >= 0) {
@@ -909,9 +919,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col + 1, row - 1} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (row - 1 >= 0) {
@@ -919,9 +929,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col, row - 1} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (row + 1 < 8) {
@@ -929,9 +939,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col, row + 1} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col - 1 >= 0 && row + 1 < 8) {
@@ -939,9 +949,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 1, row + 1} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col - 1 >= 0) {
@@ -949,9 +959,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 1, row} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                     if (col - 1 >= 0 && row - 1 >= 0) {
@@ -959,9 +969,9 @@ public:
                         if (!isupper(target)) {
                             Move move = Move{ vec2{col, row}, vec2{col - 1, row - 1} };
                             if (target == 'k')
-                                checkswhite.push_back(move);
+                                checkswhite[wcidx++] = move;
                             else
-                                moveswhite.push_back(move);
+                                moveswhite[wmidx++] = move;
                         }
                     }
                 }
@@ -979,7 +989,7 @@ public:
                 wlongcastle.to2 = vec2{7,3};
                 wlongcastle.figfrom2 = 'R';
                 wlongcastle.castletype = LONG;
-                moveswhite.push_back(wlongcastle);
+                moveswhite[wmidx++] = wlongcastle;
             }
         }
         if (whiteshortcastle) {
@@ -993,7 +1003,7 @@ public:
                 wshortcastle.to2 = vec2{7,5};
                 wshortcastle.figfrom2 = 'R';
                 wshortcastle.castletype = SHORT;
-                moveswhite.push_back(wshortcastle);
+                moveswhite[wmidx++] = wshortcastle;
             }
         }
         if (blacklongcastle) {
@@ -1007,7 +1017,7 @@ public:
                 blongcastle.to2 = vec2{0,3};
                 blongcastle.figfrom2 = 'r';
                 blongcastle.castletype = LONG;
-                movesblack.push_back(blongcastle);
+                movesblack[bmidx++] = blongcastle;
             }
         }
         if (blackshortcastle) {
@@ -1021,9 +1031,10 @@ public:
                 bshortcastle.to2 = vec2{0,5};
                 bshortcastle.figfrom2 = 'r';
                 bshortcastle.castletype = SHORT;
-                movesblack.push_back(bshortcastle);
+                movesblack[bmidx++] = bshortcastle;
             }
         }
+        moveswhite.resize(wmidx); movesblack.resize(bmidx); checkswhite.resize(wcidx); checksblack.resize(bcidx);
     }
 
     void ApplyMoveToBoard(Move& move) {
@@ -1139,6 +1150,7 @@ public:
         // seperate illegal moves
         // idea here is to apply every possible move for white and then get every move for black
         // if black has a check move, since its blacks turn we would lose, therefore the move is illegal
+
         for (auto& move : backupmoveswhite) {
             ApplyMoveToBoard(move);
 
@@ -1180,7 +1192,6 @@ public:
             if (checkswhite.size() == 0) {
                 legalmoves[BLACK + 1].push_back(move);
             }
-
         }
         for (auto& move : backupchecksblack) {
             ApplyMoveToBoard(move);

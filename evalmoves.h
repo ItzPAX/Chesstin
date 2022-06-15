@@ -196,37 +196,45 @@ int kingshield(Board board, int col, int row, int upper) {
 
 	if (upper) {
 		// pawns in front of king
-		if (board.board[col + 1][row] == 'P')
-			safety += 15;
-		if (board.board[col + 1][row + 1] == 'P')
-			safety += 15;
-		if (board.board[col + 1][row - 1] == 'P')
-			safety += 15;
+		if (col < 7 && col > 0 && row < 7 && row > 0) {
+			if (board.board[col + 1][row] == 'P')
+				safety += 15;
+			if (board.board[col + 1][row + 1] == 'P')
+				safety += 15;
+			if (board.board[col + 1][row - 1] == 'P')
+				safety += 15;
 
-		// enemy figures in front of king
-		if (islower(board.board[col + 1][row]))
-			safety -= 15;
-		if (islower(board.board[col + 1][row + 1]))
-			safety -= 15;
-		if (islower(board.board[col + 1][row - 1]))
-			safety -= 15;
+			// enemy figures in front of king
+			if (islower(board.board[col + 1][row]))
+				safety -= 15;
+			if (islower(board.board[col + 1][row + 1]))
+				safety -= 15;
+			if (islower(board.board[col + 1][row - 1]))
+				safety -= 15;
+		}
+
+		safety -= board.checksblack * 4;
 	}
 	else {
-		// pawns in front of king
-		if (board.board[col - 1][row] == 'p')
-			safety += 15;
-		if (board.board[col - 1][row + 1] == 'p')
-			safety += 15;
-		if (board.board[col - 1][row - 1] == 'p')
-			safety += 15;
+		if (col < 7 && col > 0 && row < 7 && row > 0) {
+			// pawns in front of king
+			if (board.board[col - 1][row] == 'p')
+				safety += 15;
+			if (board.board[col - 1][row + 1] == 'p')
+				safety += 15;
+			if (board.board[col - 1][row - 1] == 'p')
+				safety += 15;
 
-		// enemy figures in front of king
-		if (isupper(board.board[col - 1][row]))
-			safety -= 15;
-		if (isupper(board.board[col - 1][row + 1]))
-			safety -= 15;
-		if (isupper(board.board[col - 1][row - 1]))
-			safety -= 15;
+			// enemy figures in front of king
+			if (isupper(board.board[col - 1][row]))
+				safety -= 15;
+			if (isupper(board.board[col - 1][row + 1]))
+				safety -= 15;
+			if (isupper(board.board[col - 1][row - 1]))
+				safety -= 15;
+		}
+
+		safety -= board.checkswhite * 4;
 	}
 
 	return safety;
@@ -353,8 +361,6 @@ std::vector<MoveScored> EvaluateMoves(Board board, int turn) {
 int alphaBetaMax(Board board, int alpha, int beta, int depthleft, int turn);
 int alphaBetaMin(Board board, int alpha, int beta, int depthleft, int turn);
 
-int teamToEval = 0;
-
 int alphaBetaMax(Board board, int alpha, int beta, int depthleft, int turn) {
 	if (depthleft == 0) return EvaluateBoard(board, turn);
 
@@ -399,8 +405,6 @@ Move Think(char* pBoardInfo, int currentteam, bool game) {
 	int score = INT_MIN;
 
 	std::cout << currentteam << std::endl;
-
-	teamToEval = currentteam;
 
 	std::vector<MoveScored> moves;
 	Board b;
