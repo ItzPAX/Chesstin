@@ -53,12 +53,12 @@ const char* StringFromTeam(int team) {
 }
 
 void StartGame() {
-	Move move = Move{vec2{0,0},vec2{0,0}};
+	Move move = Move{ vec2{0,0},vec2{0,0} };
 	int movecount = 0;
 	long long elapsedtime = 0;
 
-	playingBoard.FillBoard((char*)"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-	//playingBoard.FillBoard((char*)"rnb1kbnr/ppp1pppp/8/3p4/1q1PP3/8/PPP2PPP/RNBQKBNR");
+	//playingBoard.FillBoard((char*)"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+	playingBoard.FillBoard((char*)"r1bq1rk1/1p3pp1/p1np4/2pPp2p/2P4P/2NP2P1/PP3PB1/R1Q2RK1");
 
 	// game loop
 	while (true) {
@@ -147,23 +147,23 @@ void StartGame() {
 	}
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 #ifdef _DEBUG
-    const char* pBoardInfo = "rnb1kbnr/pppppppp/8/8/3Qq3/8/PPPPPPPP/RNB1KBNR";
-	DEPTH = 2;
-    int currentteam = WHITE;
-    Think((char*)pBoardInfo, currentteam, false);
+	const char* pBoardInfo = "r1bq1rk1/1p3pp1/p1np4/2pPp2p/2P4P/2NP2P1/PP3PB1/R1Q2RK1";
+	DEPTH = 4;
+	int currentteam = WHITE;
+	Think((char*)pBoardInfo, currentteam, false);
 #else
-    if (argv[1][0] == '-' && argv[1][1] == 'g') {
-        ChooseMode();
-        StartGame();
-    }
-    else {
-        char* pBoardInfo = argv[1];
-        int currentteam = argv[2][0] == 'b' ? BLACK : WHITE;
+	if (argv[1][0] == '-' && argv[1][1] == 'g') {
+		ChooseMode();
+		StartGame();
+	}
+	else {
+		char* pBoardInfo = argv[1];
+		int currentteam = argv[2][0] == 'b' ? BLACK : WHITE;
 		DEPTH = (int)(argv[3][0] - '0');
 		Think(pBoardInfo, currentteam, false);
-    }
+	}
 #endif
-    return 0;
+	return 0;
 }

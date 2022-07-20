@@ -49,7 +49,7 @@ struct Move {
         from2 = rhs.from2; to2 = rhs.to2; figfrom2 = rhs.figfrom2; changedblacklong = rhs.changedblacklong; changedblackshort = rhs.changedblackshort;
         changedwhitelong = rhs.changedwhitelong = changedblackshort = rhs.changedblackshort; castletype = rhs.castletype; changedwhiteshort = rhs.changedwhiteshort;
     }
-}; 
+};
 
 struct MoveScored {
     Move move;
@@ -59,7 +59,7 @@ struct MoveScored {
 class Board
 {
 public:
-	char board[8][8];
+    char board[8][8];
 
     int checkswhite = 0, checksblack = 0;
 
@@ -243,7 +243,7 @@ public:
                         // we are giving a check special rules apply
                         if (attackpos == 'K')
                             checksblack[bcidx++] = move;
-                            
+
                         else
                             movesblack[bmidx++] = move;
                     }
@@ -982,11 +982,11 @@ public:
             if (board[7][1] == '.' && board[7][2] == '.' && board[7][3] == '.') {
                 Move wlongcastle;
                 wlongcastle.castle = true;
-                wlongcastle.from = vec2{7,4};
-                wlongcastle.to = vec2{7,2};
+                wlongcastle.from = vec2{ 7,4 };
+                wlongcastle.to = vec2{ 7,2 };
                 wlongcastle.figfrom = 'K';
-                wlongcastle.from2 = vec2{7,0};
-                wlongcastle.to2 = vec2{7,3};
+                wlongcastle.from2 = vec2{ 7,0 };
+                wlongcastle.to2 = vec2{ 7,3 };
                 wlongcastle.figfrom2 = 'R';
                 wlongcastle.castletype = LONG;
                 moveswhite[wmidx++] = wlongcastle;
@@ -996,11 +996,11 @@ public:
             if (board[7][5] == '.' && board[7][6] == '.') {
                 Move wshortcastle;
                 wshortcastle.castle = true;
-                wshortcastle.from = vec2{7,4};
-                wshortcastle.to = vec2{7,6};
+                wshortcastle.from = vec2{ 7,4 };
+                wshortcastle.to = vec2{ 7,6 };
                 wshortcastle.figfrom = 'K';
-                wshortcastle.from2 = vec2{7,7};
-                wshortcastle.to2 = vec2{7,5};
+                wshortcastle.from2 = vec2{ 7,7 };
+                wshortcastle.to2 = vec2{ 7,5 };
                 wshortcastle.figfrom2 = 'R';
                 wshortcastle.castletype = SHORT;
                 moveswhite[wmidx++] = wshortcastle;
@@ -1010,11 +1010,11 @@ public:
             if (board[0][1] == '.' && board[0][2] == '.' && board[0][3] == '.') {
                 Move blongcastle;
                 blongcastle.castle = true;
-                blongcastle.from = vec2{0,4};
-                blongcastle.to = vec2{0,2};
+                blongcastle.from = vec2{ 0,4 };
+                blongcastle.to = vec2{ 0,2 };
                 blongcastle.figfrom = 'k';
-                blongcastle.from2 = vec2{0,0};
-                blongcastle.to2 = vec2{0,3};
+                blongcastle.from2 = vec2{ 0,0 };
+                blongcastle.to2 = vec2{ 0,3 };
                 blongcastle.figfrom2 = 'r';
                 blongcastle.castletype = LONG;
                 movesblack[bmidx++] = blongcastle;
@@ -1024,11 +1024,11 @@ public:
             if (board[0][5] == '.' && board[0][6] == '.') {
                 Move bshortcastle;
                 bshortcastle.castle = true;
-                bshortcastle.from = vec2{0,4};
-                bshortcastle.to = vec2{0,6};
+                bshortcastle.from = vec2{ 0,4 };
+                bshortcastle.to = vec2{ 0,6 };
                 bshortcastle.figfrom = 'k';
-                bshortcastle.from2 = vec2{0,7};
-                bshortcastle.to2 = vec2{0,5};
+                bshortcastle.from2 = vec2{ 0,7 };
+                bshortcastle.to2 = vec2{ 0,5 };
                 bshortcastle.figfrom2 = 'r';
                 bshortcastle.castletype = SHORT;
                 movesblack[bmidx++] = bshortcastle;
@@ -1131,6 +1131,48 @@ public:
         board[move.from.column][move.from.row] = move.figfrom;
         board[move.to2.column][move.to2.row] = '.';
         board[move.from2.column][move.from2.row] = move.figfrom2;
+    }
+
+    void GenerateCaptures(std::vector<Move> captures[2], char* pBoardInfo, bool boardfilled = false) {
+        std::vector<Move> movesblack; std::vector<Move> checksblack; std::vector<Move> moveswhite; std::vector<Move> checkswhite;
+        GenAllMoves(moveswhite, movesblack, checkswhite, checksblack);
+        SetupMoves(moveswhite, movesblack, checkswhite, checksblack);
+
+        captures[0].reserve(200); captures[1].reserve(200);
+
+        for (auto& mov : moveswhite) {
+            if (mov.figto != '.')
+                captures[1].push_back(mov);
+        }
+        for (auto& mov : checkswhite) {
+            if (mov.figto != '.')
+                captures[1].push_back(mov);
+        }
+        for (auto& mov : movesblack) {
+            if (mov.figto != '.')
+                captures[0].push_back(mov);
+        }
+        for (auto& mov : checksblack) {
+            if (mov.figto != '.')
+                captures[0].push_back(mov);
+        }
+    }
+
+    void GenerateMoves(std::vector<Move> legalmoves[2], char* pBoardInfo, bool boardfilled = false) {
+        std::vector<Move> movesblack; std::vector<Move> checksblack; std::vector<Move> moveswhite; std::vector<Move> checkswhite;
+        GenAllMoves(moveswhite, movesblack, checkswhite, checksblack);
+        SetupMoves(moveswhite, movesblack, checkswhite, checksblack);
+
+        legalmoves[0].reserve(200); legalmoves[1].reserve(200);
+
+        for (auto& mov : moveswhite)
+            legalmoves[1].push_back(mov);
+        for (auto& mov : checkswhite)
+            legalmoves[1].push_back(mov);
+        for (auto& mov : movesblack)
+            legalmoves[0].push_back(mov);
+        for (auto& mov : checksblack)
+            legalmoves[0].push_back(mov);
     }
 
     void GenerateLegalMoves(std::vector<Move> legalmoves[2], char* pBoardInfo, bool boardfilled = false) {

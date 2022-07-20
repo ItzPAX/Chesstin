@@ -34,7 +34,7 @@ int bpawn[8][8] = {
 };
 
 // knight
-int wknight[8][8] {
+int wknight[8][8]{
 	{-50, -40, -30, -30, -30, -30, -40, -50 },
 	{-40, -20, 0, 0, 0, 0, -20, -40 },
 	{-30, 0, 10, 15, 15, 10, 0, -30 },
@@ -186,14 +186,6 @@ float pawnstructeval(Board board, int col, int row, int upper) {
 int kingshield(Board board, int col, int row, int upper) {
 	int safety = 0;
 
-	// the further the king the less safe he is
-	if (upper) {
-		safety -= col * 3;
-	}
-	else {
-		safety -= (7 - col) * 3;
-	}
-
 	if (upper) {
 		// pawns in front of king
 		if (col < 7 && col > 0 && row < 7 && row > 0) {
@@ -213,7 +205,7 @@ int kingshield(Board board, int col, int row, int upper) {
 				safety -= 15;
 		}
 
-		safety -= board.checksblack * 4;
+		safety -= board.checksblack * 3;
 	}
 	else {
 		if (col < 7 && col > 0 && row < 7 && row > 0) {
@@ -234,10 +226,35 @@ int kingshield(Board board, int col, int row, int upper) {
 				safety -= 15;
 		}
 
-		safety -= board.checkswhite * 4;
+		safety -= board.checkswhite * 3;
 	}
 
 	return safety;
+}
+
+
+int SimplePieceVal(char fig) {
+	switch (fig) {
+	case 'p':
+	case 'P':
+		return PAWN;
+	case 'n':
+	case 'N':
+		return KNIGHT;
+	case 'b':
+	case 'B':
+		return BISHOP;
+	case 'r':
+	case 'R':
+		return ROOK;
+	case 'q':
+	case 'Q':
+		return QUEEN;
+	case 'k':
+	case 'K':
+		return KING;
+	}
+	return 0;
 }
 
 int GetPointsForFigure(Board board, char figure, int col, int row, bool endgame) {
@@ -325,10 +342,10 @@ std::vector<MoveScored> EvaluateMoves(Board board, int turn) {
 
 	int activeplayer = turn == BLACK ? BLACK + 1 : WHITE;
 
-	std::vector<Move> legalmoves[2];
-	board.GenerateLegalMoves(legalmoves, nullptr, true);
+	std::vector<Move> moves[2];
+	board.GenerateMoves(moves, nullptr, true);
 
-	for (const auto& move : legalmoves[activeplayer]) {
+	for (const auto& move : moves[activeplayer]) {
 		MoveScored ScoredMove = MoveScored{};
 		ScoredMove.move = move;
 
@@ -353,54 +370,97 @@ std::vector<MoveScored> EvaluateMoves(Board board, int turn) {
 
 		movesscored.push_back(ScoredMove);
 	}
-	
+
 	std::sort(movesscored.begin(), movesscored.end(), Sort);
 	return movesscored;
 }
 
-int alphaBetaMax(Board board, int alpha, int beta, int depthleft, int turn);
-int alphaBetaMin(Board board, int alpha, int beta, int depthleft, int turn);
+int Quiesce(Board b, int turn, int alpha, int beta) {
+	int stand_pat = EvaluateBoard(b, turn);
+	if (stand_pat >= beta)
+		return beta;
 
-int alphaBetaMax(Board board, int alpha, int beta, int depthleft, int turn) {
-	if (depthleft == 0) return EvaluateBoard(board, turn);
+	if (alpha < stand_pat)
+		alpha = stand_pat;
 
-	std::vector<MoveScored> moves = EvaluateMoves(board, turn);
-	board.SetupMoves(moves);
+	int score;
+	int player = turn == BLACK ? 0 : 1;
+	std::vector<Move> captures[2];
+	b.GenerateCaptures(captures, nullptr, true);
 
-	for (auto& move : moves) {
-		Move mov = move.move;
-		board.ApplyMoveToBoard(mov);
-		int score = alphaBetaMin(board, alpha, beta, depthleft - 1, -turn);
-		board.UndoMove(mov);
+	for (auto& mov : captures[player]) {
+		b.ApplyMoveToBoard(mov);
+		score = -Quiesce(b, -turn, -beta, -alpha);
+		b.UndoMove(mov);
+
 		if (score >= beta)
-			return beta;   // fail hard beta-cutoff
+			return beta;
 		if (score > alpha)
-			alpha = score; // alpha acts like max in MiniMax
+			alpha = score;
 	}
 	return alpha;
 }
 
-int alphaBetaMin(Board board, int alpha, int beta, int depthleft, int turn) {
-	if (depthleft == 0) return EvaluateBoard(board, turn);
+int PVS(int alpha, int beta, int depthleft, int turn, Board b) {
+	if (depthleft == 0) return Quiesce(b, turn, alpha, beta);
 
-	std::vector<MoveScored> moves = EvaluateMoves(board, turn);
-	board.SetupMoves(moves);
+	int bestscore;
 
-	for (auto& move : moves) {
-		Move mov = move.move;
-		board.ApplyMoveToBoard(mov);
-		int score = alphaBetaMax(board, alpha, beta, depthleft - 1, -turn);
-		board.UndoMove(mov);
-		if (score <= alpha)
-			return alpha; // fail hard alpha-cutoff
-		if (score < beta)
-			beta = score; // beta acts like min in MiniMax
+	std::vector<MoveScored> moves = EvaluateMoves(b, turn);
+
+	b.ApplyMoveToBoard(moves.front().move);
+	bestscore = -PVS(-beta, -alpha, depthleft - 1, -turn, b);
+	b.UndoMove(moves.front().move);
+	if (bestscore > alpha) {
+		if (bestscore >= beta)
+			return bestscore;
+		alpha = bestscore;
 	}
-	return beta;
+
+	int score;
+	bool skip = true;
+	for (auto& move : moves) {
+		if (skip) {
+			skip = false;
+			continue;
+		}
+
+		Move mov = move.move;
+		b.ApplyMoveToBoard(mov);
+		score = -PVS(-alpha - 1, -alpha, depthleft - 1, -turn, b);
+		if (score > alpha && score < beta) {
+			score = -PVS(-beta, -alpha, depthleft - 1, -turn, b);
+			if (score > alpha)
+				alpha = score;
+		}
+		b.UndoMove(mov);
+		if (score > bestscore) {
+			if (score >= beta)
+				return score;
+			bestscore = score;
+		}
+	}
+	return bestscore;
+}
+
+void GetMoveScore(bool game, std::vector<Move> moves, Board b, int turn, int id, int* pbest, Move* m) {
+	for (auto& mov : moves) {
+		game ? playingBoard.ApplyMoveToBoard(mov) : b.ApplyMoveToBoard(mov);
+		int score = -PVS(INT_MIN, INT_MAX, DEPTH, -turn, game ? playingBoard : b);
+		game ? playingBoard.UndoMove(mov) : b.UndoMove(mov);
+
+		std::cout << "Thread " << id << ": ";
+		mov.PrintMove();
+		std::cout << " " << score << std::endl;
+
+		if (score > *pbest) {
+			*pbest = score;
+			*m = mov;
+		}
+	}
 }
 
 Move Think(char* pBoardInfo, int currentteam, bool game) {
-
 	Move m;
 	int score = INT_MIN;
 
@@ -411,28 +471,37 @@ Move Think(char* pBoardInfo, int currentteam, bool game) {
 	if (!game) {
 		b.FillBoard(pBoardInfo);
 		moves = EvaluateMoves(b, currentteam);
-		b.SetupMoves(moves);
 	}
 	else {
-		moves = EvaluateMoves(playingBoard, engineteam);
-		playingBoard.SetupMoves(moves);
+		moves = EvaluateMoves(playingBoard, currentteam);
 	}
 
+	// split all moves into THREAD pieces
+	int splitsize = std::ceilf(moves.size() / THREADS);
+
+	// generate splices
+	std::vector<Move> splices[THREADS + 1];
+	for (int i = 0; i < THREADS; i++)
+		splices[i].reserve(splitsize);
+
+	int idx = 0;
+	int splicesidx = 0;
 	for (auto& move : moves) {
-		Move mov = move.move;
-		
-		game ? playingBoard.ApplyMoveToBoard(mov): b.ApplyMoveToBoard(mov);
-		int movscore = -alphaBetaMax(game ? playingBoard : b, INT_MIN, INT_MAX, DEPTH, -currentteam);
-		game ? playingBoard.UndoMove(mov) : b.UndoMove(mov);
-	
-		mov.PrintMove();
-		std::cout << " " << movscore << std::endl;
-	
-		if (movscore > score) {
-			score = movscore;
-			m = mov;
+		if (idx == splitsize) {
+			idx = 0;
+			splicesidx++;
 		}
+		splices[splicesidx].push_back(move.move);
+		idx++;
 	}
+
+	// init threads
+	for (int i = 0; i < THREADS; i++)
+		threads[i] = std::thread(GetMoveScore, game, splices[i], b, currentteam, i, &score, &m);
+
+	// start threads
+	for (int i = 0; i < THREADS; i++)
+		threads[i].join();
 
 	//std::vector<MoveScored> moves = EvaluateMoves(b, currentteam);
 	//m = moves.front().move;

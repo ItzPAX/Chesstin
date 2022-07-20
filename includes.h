@@ -9,7 +9,10 @@
 
 static int DEPTH = 0;
 
+#define THREADS 4
+
 #include <climits>
+#include <thread>
 #include <cstring>
 #include <iostream>
 #include <chrono>
@@ -19,6 +22,8 @@ static int DEPTH = 0;
 #include <vector>
 #include <ctime>
 #include "Board.h"
+
+std::thread threads[THREADS];
 
 static Board playingBoard;
 static int turn = WHITE;
